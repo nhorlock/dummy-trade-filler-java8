@@ -2,7 +2,7 @@ package com.conygre.training.tradesimulator.model;
 
 public enum TradeState {
     CREATED("CREATED"),
-    PROCESSING("PROCESSSING"),
+    PROCESSING("PROCESSING"),
     FILLED("FILLED"),
     REJECTED("REJECTED");
 
