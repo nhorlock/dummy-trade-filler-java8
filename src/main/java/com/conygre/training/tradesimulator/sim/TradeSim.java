@@ -52,9 +52,6 @@ public class TradeSim {
     @Scheduled(fixedRateString = "${scheduleRateMs:10000}")
     public void runSim() {
         LOG.debug("Main loop running!");
-        Trade  trade = new Trade();
-        trade.setState(TradeState.CREATED);
-        tradeDao.save(trade);
 
         int tradesForFilling = findTradesForFilling().size();
         LOG.debug("Found " + tradesForFilling + " trades to be filled/rejected");
