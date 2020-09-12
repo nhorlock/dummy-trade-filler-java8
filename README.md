@@ -1,9 +1,15 @@
 # Dummy Trade Fulfillment Engine
 
 ### Outline
-This is a simple spring-boot app that will simulate a system that makes trades.
+This is a simple spring-boot app that will simulate a system that sends trade requests to be executed at an exchange. This system does not actually send the reuests to an exchange, it is just a SIMULATOR for testing.
 
-On a timed interval it will read from a MongoDB database. It will look for records that represent Trade objects.
+On a timed interval this service will read from a MongoDB database. It will look for records that represent Trade objects. Each object represents a request to make a trade i.e. a BUY or a SELL.
+
+Each trade request is expected to move through the following states:
+1. CREATED : All trade records are initially marked with this state to indicate the request has just been created.
+2. PROCESSING : When trade requests have been sent to a simulated exchange they will be marked as PROCESSING to indicate they are currently being handled.
+3. FILLED : A trade request that was successfull will be marked as FILLED.
+4. REJECTED : A trade requests that was unsuccessfull will be marked as REJECTED.
 
 It will mark all records that it finds with state "CREATED" as "PROCESSING".
 
@@ -11,7 +17,9 @@ It will mark all records that it finds with state "PROCESSING" as either "FILLED
 
 You may edit the source code as you require to meet the needs of testing and demonstrating your system.
 
-You probably want ot update the Trade model object to match your own design.
+The two areas you will initially need to update are:
+1. The Trade model (com.conygre.training.tradesimulator.model). This should be changed to match your design from the Java Hackathon Trade REST API.
+2. You may want to update the application.properties file so that this service uses the same mongodb host and database as your Trade REST API.
 
 ### Run
 Build on the command line with gradle:

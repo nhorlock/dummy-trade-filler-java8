@@ -9,8 +9,10 @@ public class Trade {
     @Id
     private String _id;
     private TradeState state = TradeState.CREATED;
+    private TradeType type = TradeType.BUY;
     private String ticker;
-    private double amount = 0.0;
+    private int quantity;
+    private double price;
 
 
     public TradeState getState() {
@@ -29,11 +31,27 @@ public class Trade {
         this.ticker = ticker;
     }
 
-    public double getAmount() {
-        return amount;
+    public double getQuantity() {
+        return quantity;
     }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
+    public TradeType getType() {
+        return type;
+    }
+
+    public void setType(TradeType type) {
+        this.type = type;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
