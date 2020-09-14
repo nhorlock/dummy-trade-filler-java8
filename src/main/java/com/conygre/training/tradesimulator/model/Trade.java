@@ -1,5 +1,7 @@
 package com.conygre.training.tradesimulator.model;
 
+import java.util.Date;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -8,12 +10,21 @@ public class Trade {
 
     @Id
     private String _id;
+    private Date created = new Date(System.currentTimeMillis());
     private TradeState state = TradeState.CREATED;
     private TradeType type = TradeType.BUY;
     private String ticker;
     private int quantity;
     private double price;
 
+
+    public Date getCreated() {
+        return created;
+    }
+
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
     public TradeState getState() {
         return state;
