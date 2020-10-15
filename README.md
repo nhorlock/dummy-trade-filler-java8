@@ -1,5 +1,7 @@
 # Dummy Trade Fulfillment Engine
 
+# NOTE : THIS PROJECT IS DESIGNED TO BE UPDATED SO THAT IT'S DATA MODEL MATCHES A TRADE API, THIS IS NOT A "DROP IN" SOLUTION
+
 ### Outline
 This is a simple spring-boot app that will simulate a system that sends trade requests to be executed at an exchange. This system does not actually send the reuests to an exchange, it is just a SIMULATOR for testing.
 
