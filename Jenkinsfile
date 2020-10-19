@@ -1,9 +1,16 @@
+def openshiftName = 'demo-trade-api'
+def projectName = 'dummy-trade-filler'
+def version = "0.0.${currentBuild.number}"
+def dockerImageTag = "${projectName}:${version}"
+
 pipeline {
   agent any
- 
+
   stages {
+
     stage('Test') {
       steps {
+        sh 'chmod a+x gradlew'
         sh './gradlew test'
       }
     }
@@ -16,16 +23,24 @@ pipeline {
 
     stage('Build Container') {
       steps {
-        sh "docker build -t dummy-trade-filler:0.0.${currentBuild.number} ."
+        sh "docker build -t ${dockerImageTag} ."
       }
     }
 
-    stage('Deploy Container') {
+    stage('Deploy Container To Openshift') {
       steps {
-        sh "docker stop dummy-trade-filler || echo 'No dummy-trade-filler container to stop'"
-        sh "docker rm dummy-trade-filler || echo 'No dummy-trade-filler container to remove'"
-        sh "docker run --name dummy-trade-filler --restart unless-stopped -d --net mongo-net -e DB_HOST=mongo dummy-trade-filler:0.0.${currentBuild.number}"
+        sh "oc project ${openshiftName} || oc new-project ${openshiftName}"
+        sh "oc get service mongo || oc new-app mongo"
+        sh "oc delete all --selector app=${projectName} || echo 'Unable to delete all previous openshift resources'"
+        sh "oc new-app ${dockerImageTag} -l version=${version} -e DB_HOST=mongo"
       }
+    }
+  }
+
+  post {
+    always {
+      archiveArtifacts artifacts: 'build/libs/**/*.jar', fingerprint: true
+      archiveArtifacts 'build/reports/**/*'
     }
   }
 }
